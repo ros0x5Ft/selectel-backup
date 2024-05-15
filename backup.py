@@ -72,7 +72,7 @@ def getVmUUID(token):
                'X-Auth-Token': '{}'.format(token)
                }
     try:
-         r = requests.get(url='https://api.{}.selvpc.ru/{}'.format(VM_REGION,'compute/v2.1/servers/detail'),
+         r = requests.get(url='https://{}.cloud.api.selcloud.ru/{}'.format(VM_REGION,'compute/v2.1/servers/detail'),
                           headers=headers)
          r.raise_for_status()
     except requests.exceptions.HTTPError as e:
@@ -103,7 +103,7 @@ def startBackup(token, vm_uuid):
                }
            }
     try:
-         r = requests.post(url='https://api.{}.selvpc.ru/{}/{}/action'.format(VM_REGION,'compute/v2.1/servers', vm_uuid),
+         r = requests.post(url='https://{}.cloud.api.selcloud.ru/{}/{}/action'.format(VM_REGION,'compute/v2.1/servers', vm_uuid),
                     data=json.dumps(req),
                     headers=headers)
          r.raise_for_status()
@@ -127,7 +127,7 @@ def checkBackupState(token, image_uuid):
 
         while(checkProcessed):
             time.sleep(60)
-            r = requests.get(url='https://api.{}.selvpc.ru/{}/{}'.format(VM_REGION,'image/v2/images', image_uuid),
+            r = requests.get(url='https://{}.cloud.api.selcloud.ru/{}/{}'.format(VM_REGION,'image/v2/images', image_uuid),
                          headers=headers)
             attempt = attempt + 1
             status = r.json()["status"]
@@ -145,7 +145,7 @@ def deleteBackup(token, image_uuid):
                'X-Auth-Token': '{}'.format(token)
                }
         try:
-             r = requests.delete(url='https://api.{}.selvpc.ru/{}/{}'.format(VM_REGION,'image/v2/images', image_uuid),
+             r = requests.delete(url='https://{}.cloud.api.selcloud.ru/{}/{}'.format(VM_REGION,'image/v2/images', image_uuid),
                             headers=headers
                             )
              r.raise_for_status()
@@ -163,7 +163,7 @@ def delAllOtherImagesExcludeLast(token, image_uuid):
         currentImageUUID = image_uuid
         
         try:
-             r = requests.get(url='https://api.{}.selvpc.ru/{}'.format(VM_REGION,'image/v2/images'),
+             r = requests.get(url='https://{}.cloud.api.selcloud.ru/{}'.format(VM_REGION,'image/v2/images'),
                          headers=headers,
                          params=payload)
              r.raise_for_status()
